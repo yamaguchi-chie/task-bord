@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 function App() {
@@ -10,6 +10,7 @@ function App() {
     }
   })
   const [inputText, setInputText] = useState('')
+  const composing = useRef(false)
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
@@ -33,7 +34,7 @@ function App() {
   }
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.isComposing) addTask()
+    if (e.key === 'Enter' && !composing.current) addTask()
   }
 
   return (
@@ -45,6 +46,8 @@ function App() {
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
+          onCompositionStart={() => { composing.current = true }}
+          onCompositionEnd={() => { composing.current = false }}
           onKeyDown={handleKeyDown}
           placeholder="タスクを入力してください"
         />
