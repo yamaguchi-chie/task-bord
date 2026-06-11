@@ -23,7 +23,7 @@ function App() {
   }
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') addTask()
+    if (e.key === 'Enter' && !e.isComposing) addTask()
   }
 
   return (
